@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/qlbill"-->
+<!--        android:icon="@drawable/icqlybill"-->
+<!--        android:title="Quản lý bill" />-->
+<!--    <item-->
+<!--        android:id="@+id/qlproduct"-->
+<!--        android:icon="@drawable/icqlysp"-->
+<!--        android:title="Quản lý product" />-->
+    <item
+        android:id="@+id/qluser"
+        android:icon="@drawable/icqluser"
+        android:title="Quản Lý user" />
+<!--    <item-->
+<!--        android:id="@+id/thongke"-->
+<!--        android:icon="@drawable/ictk"-->
+<!--        android:title="Thống kê" />-->
+
+<!--    <group android:checkableBehavior="single" >-->
+<!--        <item android:title="Khác">-->
+<!--            <menu>-->
+<!--                <item-->
+<!--                    android:id="@+id/thaydoitt"-->
+<!--                    android:icon="@drawable/icthaydoitt"-->
+<!--                    android:title="Thay đổi thông tin" />-->
+                <item
+                    android:id="@+id/dmk"
+                    android:icon="@drawable/icedit"
+                    android:title="Đổi mật khẩu" />
+                <item
+                    android:id="@+id/dangxuat"
+                    android:icon="@drawable/icdangxuat"
+                    android:title="Đăng xuất" />
+<!--            </menu>-->
+<!--        </item>-->
+<!--    </group>-->
+
+
+
+</menu>

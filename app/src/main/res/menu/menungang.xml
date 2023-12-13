@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/qlproductngang"
+        android:icon="@drawable/icqlysp"
+        android:title="kho hàng" />
+    <item
+        android:id="@+id/qlbillngang"
+        android:icon="@drawable/icqlybill"
+        android:title="hóa đơn" />
+    <item
+        android:id="@+id/thaydoittngang"
+        android:icon="@drawable/icthaydoitt"
+        android:title="profile" />
+    <item
+        android:id="@+id/thongkengang"
+        android:icon="@drawable/ictk"
+        android:title="thống kê" />
+</menu>
