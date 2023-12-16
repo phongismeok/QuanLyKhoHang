@@ -42,6 +42,7 @@ public class FrmXemBillDetail extends Fragment implements FragmentChangeListener
     private ArrayList<BillDetail> list = new ArrayList<>();
     String idbill;
     int epidbill;
+    String loaibill;
 
 
     @Override
@@ -58,8 +59,15 @@ public class FrmXemBillDetail extends Fragment implements FragmentChangeListener
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                FrmChonLoaiBill newFragment = new FrmChonLoaiBill(); // chuyen ve frm chon loai cau hoi
-                replaceFragment(newFragment);
+                if(loaibill.equals("nhập kho")){
+                    FrmQuanLyBillNhap newFragment = new FrmQuanLyBillNhap(); // chuyen ve frm chon loai cau hoi
+                    replaceFragment(newFragment);
+                }
+                else{
+                    FrmQuanLyBillXuat newFragment = new FrmQuanLyBillXuat(); // chuyen ve frm chon loai cau hoi
+                    replaceFragment(newFragment);
+                }
+
             }
         });
 
@@ -78,6 +86,8 @@ public class FrmXemBillDetail extends Fragment implements FragmentChangeListener
     public void nhandl(){
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("IDBILL", Context.MODE_PRIVATE);
         idbill = sharedPreferences2.getString("phongidbill", "");
+        loaibill = sharedPreferences2.getString("phongloaibill", "");
+        Log.d("dldldd", "nhandl: "+loaibill);
     }
 
     @Override

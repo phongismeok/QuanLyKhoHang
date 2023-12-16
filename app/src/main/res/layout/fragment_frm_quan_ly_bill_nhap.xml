@@ -7,8 +7,16 @@
     tools:context=".fragment.FrmQuanLyBillNhap"
     >
 
+    <EditText
+        android:id="@+id/edttimkiembillnhap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_timkiem"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvbillnhap"
+        android:layout_below="@+id/edttimkiembillnhap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />

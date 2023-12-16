@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -48,6 +50,7 @@ import com.example.quanlykhohang.R;
 import com.example.quanlykhohang.adapter.ProductAdapter;
 import com.example.quanlykhohang.dao.ProductDao;
 import com.example.quanlykhohang.dao.UserDao;
+import com.example.quanlykhohang.model.Bill;
 import com.example.quanlykhohang.model.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -71,6 +74,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
     UserDao userDao;
     ProductAdapter productAdapter;
     private ArrayList<Product> list = new ArrayList<>();
+    private ArrayList<Product> listtk = new ArrayList<>();
     private static final int PICK_IMAGE_REQUEST = 1;
     ImageView imganh;
     String user;
@@ -94,6 +98,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
 
         fabOption1 = view.findViewById(R.id.fab_option1);
         fabOption2 = view.findViewById(R.id.fab_option2);
+        EditText edttimkiem = view.findViewById(R.id.edttimkiemproduct);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rcvpro.setLayoutManager(layoutManager);
@@ -132,6 +137,30 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
                 FrmDanhSachLuuTru newFragment = new FrmDanhSachLuuTru(); // chuyen ve frm chon loai cau hoi
                 replaceFragment(newFragment);
                 toggleMenu();
+            }
+        });
+
+        edttimkiem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
+                for (Product product:listtk) {
+                    if(String.valueOf(product.getName()).
+                            contains(charSequence.toString())){
+                        list.add(product);
+                    }
+                }
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -273,6 +302,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
     public void hienthidulieu() {
         list.clear();
         list.addAll(prodao.getProductByStatus("ok"));
+        listtk.addAll(prodao.getProductByStatus("ok"));
         productAdapter.notifyDataSetChanged();
     }
 

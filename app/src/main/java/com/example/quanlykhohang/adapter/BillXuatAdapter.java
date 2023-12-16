@@ -73,9 +73,11 @@ public class BillXuatAdapter extends RecyclerView.Adapter<BillXuatAdapter.viewho
                 userDao.updateLastAction(user,"xem hóa đơn xuất chi tiết");
                 int idbill = bill.getIdBill();
                 String epidbill = String.valueOf(idbill);
+                String loaibill = bill.getTypeBill();
                 SharedPreferences sharedPreferences = context.getSharedPreferences("IDBILL", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("phongidbill", epidbill);
+                editor.putString("phongloaibill", loaibill);
                 editor.apply();
 
                 FrmXemBillDetail newFragment = new FrmXemBillDetail();
@@ -139,7 +141,7 @@ public class BillXuatAdapter extends RecyclerView.Adapter<BillXuatAdapter.viewho
     }
     public void hientthidl() {
         list.clear();
-        list.addAll(billDao.getBillsByTypeAndStatus("nhập kho", "ok"));
+        list.addAll(billDao.getBillsByTypeAndStatus("xuất kho", "ok"));
         notifyDataSetChanged();
     }
     public void laydl(){

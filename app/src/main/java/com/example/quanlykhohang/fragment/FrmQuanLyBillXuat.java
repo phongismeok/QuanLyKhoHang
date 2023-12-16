@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,7 +74,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
     String luachon;
     String sl, ghichu;
     TableLayout tableLayout;
-    EditText edtsoluong;
+    EditText edtsoluong,edttimkiem;
     int rowCount;
     int trangthaichon = 0;
     int tongtien;
@@ -89,6 +91,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
     String slcheck;
     HashSet<String> uniqueValues = new HashSet<>();
     private ArrayList<Bill> list = new ArrayList<>();
+    private ArrayList<Bill> listtk = new ArrayList<>();
     private FloatingActionButton fabOption1;
     private FloatingActionButton fabOption2;
     private boolean isMenuOpen = false;
@@ -103,6 +106,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
         billDao = new BillDao(getActivity());
         fabOption1 = view.findViewById(R.id.fab_option1bxuat);
         fabOption2 = view.findViewById(R.id.fab_option2bxuat);
+        edttimkiem = view.findViewById(R.id.edttimkiembillxuat);
         laydl();
         dataPassListener.onDataPass("thoat");
 
@@ -112,6 +116,13 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.icquaylai);
         }
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FrmChonLoaiBill newFragment = new FrmChonLoaiBill(); // chuyen ve frm chon loai cau hoi
+                replaceFragment(newFragment);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rcvbillxuat.setLayoutManager(layoutManager);
@@ -138,6 +149,30 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
                 FrmLuuTruBillXuat newFragment = new FrmLuuTruBillXuat(); // chuyen ve frm chon loai cau hoi
                 replaceFragment(newFragment);
                 toggleMenu();
+            }
+        });
+
+        edttimkiem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
+                for (Bill bill:listtk) {
+                    if(String.valueOf(bill.getCreatedDate()).
+                            contains(charSequence.toString())){
+                        list.add(bill);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -176,13 +211,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
 
         ProductDao productDao = new ProductDao(getActivity());
 
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                FrmChonLoaiBill newFragment = new FrmChonLoaiBill(); // chuyen ve frm chon loai cau hoi
-                replaceFragment(newFragment);
-            }
-        });
+
 
         ArrayList<String> list = new ArrayList<>();
         list = (ArrayList<String>) productDao.gettentheott();
@@ -402,6 +431,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
     public void hienthidl() {
         list.clear();
         list.addAll(billDao.getBillsByTypeAndStatus("xuất kho", "ok"));
+        listtk.addAll(billDao.getBillsByTypeAndStatus("xuất kho", "ok"));
         adapter.notifyDataSetChanged();
     }
 

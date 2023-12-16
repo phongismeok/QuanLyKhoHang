@@ -23,7 +23,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -80,7 +82,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
     String luachon;
     String sl,ghichu;
     TableLayout tableLayout;
-    EditText edtsoluong;
+    EditText edtsoluong,edttimkiem;
     int rowCount;
     int trangthaichon = 0;
     int tongtien;
@@ -92,6 +94,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
     long themid;
     HashSet<String> uniqueValues = new HashSet<>();
     private ArrayList<Bill> list = new ArrayList<>();
+    private ArrayList<Bill> listtk = new ArrayList<>();
     private FloatingActionButton fabOption1;
     private FloatingActionButton fabOption2;
     private boolean isMenuOpen = false;
@@ -108,6 +111,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
         billDao = new BillDao(getActivity());
         fabOption1 = view.findViewById(R.id.fab_option1bnhap);
         fabOption2 = view.findViewById(R.id.fab_option2bnhap);
+        edttimkiem = view.findViewById(R.id.edttimkiembillnhap);
         laydl();
         dataPassListener.onDataPass("thoat");
 
@@ -150,6 +154,30 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
                 FrmLuuTruBillNhap newFragment = new FrmLuuTruBillNhap(); // chuyen ve frm chon loai cau hoi
                 replaceFragment(newFragment);
                 toggleMenu();
+            }
+        });
+
+        edttimkiem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
+                for (Bill bill:listtk) {
+                    if(String.valueOf(bill.getCreatedDate()).
+                            contains(charSequence.toString())){
+                        list.add(bill);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -391,6 +419,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
     public void hienthidl(){
         list.clear();
         list.addAll(billDao.getBillsByTypeAndStatus("nhập kho","ok"));
+        listtk.addAll(billDao.getBillsByTypeAndStatus("nhập kho","ok"));
         adapter.notifyDataSetChanged();
     }
 

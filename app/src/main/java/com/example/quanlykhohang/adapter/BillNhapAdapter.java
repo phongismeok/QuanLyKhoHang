@@ -73,9 +73,11 @@ public class BillNhapAdapter extends RecyclerView.Adapter<BillNhapAdapter.viewho
                 userDao.updateLastAction(user,"xem hóa đơn nhập chi tiết");
                 int idbill = bill.getIdBill();
                 String epidbill = String.valueOf(idbill);
+                String loaibill = bill.getTypeBill();
                 SharedPreferences sharedPreferences = context.getSharedPreferences("IDBILL", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("phongidbill", epidbill);
+                editor.putString("phongloaibill", loaibill);
                 editor.apply();
 
                 FrmXemBillDetail newFragment = new FrmXemBillDetail();

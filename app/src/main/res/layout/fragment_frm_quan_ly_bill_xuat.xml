@@ -6,11 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.FrmQuanLyBillXuat"
     >
+    <EditText
+        android:id="@+id/edttimkiembillxuat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_timkiem"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvbillxuat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/edttimkiembillxuat"
         android:layout_centerInParent="true" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fltbillxuat"
