@@ -55,6 +55,7 @@ public class FrmThongKe extends Fragment {
     UserDao userDao;
     ProductDao productDao;
     private Typetoolbar dataPassListener;
+    String namht;
     int dk=0;
     TextView txtslnhap, txtslxuat, txtslcon, txttiennhap, txttienxuat, txtdoanhthu;
 
@@ -95,6 +96,10 @@ public class FrmThongKe extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.itemspinner, list);
         spnthang.setAdapter(adapter);
 
+        Calendar lich = Calendar.getInstance();//tạo đối tượng để lấy ngày giờ hiện tại
+        int year = lich.get(Calendar.YEAR);
+        namht = String.valueOf(year);
+
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             // Thiết lập hiển thị nút "Up" trên ActionBar
@@ -115,8 +120,8 @@ public class FrmThongKe extends Fragment {
                 if (thangdangchon.equals("1") || thangdangchon.equals("3") || thangdangchon.equals("5") || thangdangchon.equals("7") || thangdangchon.equals("8") || thangdangchon.equals("10") || thangdangchon.equals("12")) {
                     // code thang 31 ngay
                     String bienthaythe = thangdangchon;
-                    String thoigiantv = "1" + "/" + bienthaythe + "/" + "2023";
-                    String thoigiantv2 = "31" + "/" + bienthaythe + "/" + "2023";
+                    String thoigiantv = "1" + "/" + bienthaythe + "/" + namht;
+                    String thoigiantv2 = "31" + "/" + bienthaythe + "/" + namht;
                     sl = billDao.getQuantityByTypeBillAndDateRange("nhập kho", thoigiantv, thoigiantv2);
                     sl2 = billDao.getQuantityByTypeBillAndDateRange("xuất kho", thoigiantv, thoigiantv2);
                     sl3 = sl - sl2;
@@ -192,13 +197,12 @@ public class FrmThongKe extends Fragment {
                     mpBarchart.invalidate();
 
                 } else if (thangdangchon.equals("2")) {
-                    int year = 2023; // Thay đổi năm cần kiểm tra ở đây
 
-                    if (isLeapYear(year)) {
+                    if (isLeapYear(Integer.parseInt(namht))) {
                         // nam nhuan
                         String bienthaythe = thangdangchon;
-                        String thoigiantv = "1" + "/" + bienthaythe + "/" + "2023";
-                        String thoigiantv2 = "29" + "/" + bienthaythe + "/" + "2023";
+                        String thoigiantv = "1" + "/" + bienthaythe + "/" + namht;
+                        String thoigiantv2 = "29" + "/" + bienthaythe + "/" + namht;
                         int sl = billDao.getQuantityByTypeBillAndDateRange("nhập kho", thoigiantv, thoigiantv2);
                         int sl2 = billDao.getQuantityByTypeBillAndDateRange("xuất kho", thoigiantv, thoigiantv2);
                         sl3 = sl - sl2;
@@ -248,8 +252,8 @@ public class FrmThongKe extends Fragment {
                     } else {
                         // ko phai nam nhuan
                         String bienthaythe = thangdangchon;
-                        String thoigiantv = "1" + "/" + bienthaythe + "/" + "2023";
-                        String thoigiantv2 = "28" + "/" + bienthaythe + "/" + "2023";
+                        String thoigiantv = "1" + "/" + bienthaythe + "/" + namht;
+                        String thoigiantv2 = "28" + "/" + bienthaythe + "/" + namht;
                         int sl = billDao.getQuantityByTypeBillAndDateRange("nhập kho", thoigiantv, thoigiantv2);
                         int sl2 = billDao.getQuantityByTypeBillAndDateRange("xuất kho", thoigiantv, thoigiantv2);
                         sl3 = sl - sl2;
@@ -300,8 +304,8 @@ public class FrmThongKe extends Fragment {
                 } else {
                     // code thang 30 ngay
                     String bienthaythe = thangdangchon;
-                    String thoigiantv = "1" + "/" + bienthaythe + "/" + "2023";
-                    String thoigiantv2 = "30" + "/" + bienthaythe + "/" + "2023";
+                    String thoigiantv = "1" + "/" + bienthaythe + "/" + namht;
+                    String thoigiantv2 = "30" + "/" + bienthaythe + "/" + namht;
                     int sl = billDao.getQuantityByTypeBillAndDateRange("nhập kho", thoigiantv, thoigiantv2);
                     int sl2 = billDao.getQuantityByTypeBillAndDateRange("xuất kho", thoigiantv, thoigiantv2);
                     sl3 = sl - sl2;

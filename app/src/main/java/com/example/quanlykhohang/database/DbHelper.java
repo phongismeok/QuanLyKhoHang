@@ -52,7 +52,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 "createdByUser TEXT references User(username))";
         db.execSQL(tbBill);
 
-
         String tbBillDetail = "create table BillDetail (idBillDetail integer primary key autoincrement , " +
                 "idBill integer references Bill(idBill), " +
                 "idProduct integer references Product(idProduct), " +
@@ -60,7 +59,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 "name text , " +
                 "price text )";
         db.execSQL(tbBillDetail);
-
 
     }
 
