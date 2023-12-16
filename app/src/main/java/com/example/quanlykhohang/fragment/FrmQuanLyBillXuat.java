@@ -160,6 +160,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hienthidl();
                 list.clear();
                 for (Bill bill:listtk) {
                     if(String.valueOf(bill.getCreatedDate()).
@@ -430,6 +431,7 @@ public class FrmQuanLyBillXuat extends Fragment implements FragmentChangeListene
 
     public void hienthidl() {
         list.clear();
+        listtk.clear();
         list.addAll(billDao.getBillsByTypeAndStatus("xuất kho", "ok"));
         listtk.addAll(billDao.getBillsByTypeAndStatus("xuất kho", "ok"));
         adapter.notifyDataSetChanged();

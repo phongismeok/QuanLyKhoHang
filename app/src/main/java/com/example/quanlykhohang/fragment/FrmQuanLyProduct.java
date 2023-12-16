@@ -148,6 +148,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                hienthidulieu();
                 list.clear();
                 for (Product product:listtk) {
                     if(String.valueOf(product.getName()).
@@ -232,7 +233,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
                     Toastdep(1, "Nhập đầy đủ thông tin");
                 } else {
                     if (prodao.checktrungten(tenpro)) {
-                        Toastdep(1, "tên sản phẩm này đã tồn tại trong kho hoặc kho lưu trữ");
+                        Toastdep(1, "sản phẩm này đã tồn tại");
                     } else {
                         try {
                             int gnhap = Integer.parseInt(gianhap);
@@ -301,6 +302,7 @@ public class FrmQuanLyProduct extends Fragment implements OnImageSelectedListene
 
     public void hienthidulieu() {
         list.clear();
+        listtk.clear();
         list.addAll(prodao.getProductByStatus("ok"));
         listtk.addAll(prodao.getProductByStatus("ok"));
         productAdapter.notifyDataSetChanged();

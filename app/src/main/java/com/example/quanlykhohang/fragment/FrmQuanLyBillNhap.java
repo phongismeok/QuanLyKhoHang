@@ -73,6 +73,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
     public FrmQuanLyBillNhap() {
         // Required empty public constructor
     }
+
     RecyclerView rcvbillnhap;
     FloatingActionButton fltaddbillnhap;
 
@@ -80,9 +81,9 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
     BillNhapAdapter adapter;
     Spinner spinnersp;
     String luachon;
-    String sl,ghichu;
+    String sl, ghichu;
     TableLayout tableLayout;
-    EditText edtsoluong,edttimkiem;
+    EditText edtsoluong, edttimkiem;
     int rowCount;
     int trangthaichon = 0;
     int tongtien;
@@ -131,7 +132,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rcvbillnhap.setLayoutManager(layoutManager);
-        adapter = new BillNhapAdapter(getActivity(),list,this);
+        adapter = new BillNhapAdapter(getActivity(), list, this);
         rcvbillnhap.setAdapter(adapter);
 
         fltaddbillnhap.setOnClickListener(new View.OnClickListener() {
@@ -165,10 +166,12 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                hienthidl();
                 list.clear();
-                for (Bill bill:listtk) {
-                    if(String.valueOf(bill.getCreatedDate()).
-                            contains(charSequence.toString())){
+                for (Bill bill : listtk) {
+                    if (String.valueOf(bill.getCreatedDate()).
+                            contains(charSequence.toString())) {
                         list.add(bill);
                     }
                 }
@@ -218,11 +221,10 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 
         ArrayList<String> finalList = list;
 
-        if(list.size()==0){
+        if (list.size() == 0) {
             spinnersp.setVisibility(View.INVISIBLE);
-            Toastdep(1,"Bạn chưa thêm sản phẩm");
-        }
-        else{
+            Toastdep(1, "Bạn chưa thêm sản phẩm");
+        } else {
             spinnersp.setVisibility(View.VISIBLE);
         }
 
@@ -231,6 +233,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 luachon = finalList.get(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -243,10 +246,10 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
             public void onClick(View view) {
                 sl = edtsoluong.getText().toString();
 
-                if(sl.equals("")){
-                    Toastdep(1,"Vui lòng nhập đủ thông tin");
-                }else{
-                    if(!uniqueValues.contains(luachon)){
+                if (sl.equals("")) {
+                    Toastdep(1, "Vui lòng nhập đủ thông tin");
+                } else {
+                    if (!uniqueValues.contains(luachon)) {
                         TableRow tableRow = new TableRow(getActivity());
 
                         TextView textViewCol1 = new TextView(getActivity());
@@ -267,8 +270,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
                         tableLayout.addView(tableRow);
                         trangthaichon = 1;
                         uniqueValues.add(luachon);
-                    }
-                    else{
+                    } else {
                         for (int i = 0; i < tableLayout.getChildCount(); i++) {
                             View view4 = tableLayout.getChildAt(i);
                             if (view4 instanceof TableRow) {
@@ -341,14 +343,14 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
                     }
                 }
                 // code them so luong vao database tai day
-                for(int e=0;e<columnDataList.size();e++){
+                for (int e = 0; e < columnDataList.size(); e++) {
                     productDao.congsl(columnDataList.get(e), Integer.parseInt(columnDataList2.get(e)));
 
                     // code tinh tong tien
                     String gia = productDao.getPriceNhapByName(columnDataList.get(e));
                     int epgia = Integer.parseInt(gia);
                     int sl = Integer.parseInt(columnDataList2.get(e));
-                    int tt1 = epgia*sl;
+                    int tt1 = epgia * sl;
                     giatien.add(tt1);
                     tongtien = 0;
                     // Duyệt qua từng phần tử và cộng vào biến sum
@@ -365,45 +367,43 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 
 
                 }
-                if(trangthaichon ==1){
+                if (trangthaichon == 1) {
                     Calendar ngay = Calendar.getInstance();//tạo đối tượng để lấy ngày giờ hiện tại
                     int year = ngay.get(Calendar.YEAR);
-                    int month = ngay.get(Calendar.MONTH)+1;
+                    int month = ngay.get(Calendar.MONTH) + 1;
                     int day = ngay.get(Calendar.DAY_OF_MONTH);
 //                    String ngayhomnay = day+"/"+month+"/"+year;
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     String ngayhomnay = sdf.format(ngay.getTime());
 
 
-
                     String eptongtien = String.valueOf(tongtien);
                     // code them bill
-                    Bill bill = new Bill("nhập kho",ngayhomnay,ghichu,eptongtien,"ok",user);
+                    Bill bill = new Bill("nhập kho", ngayhomnay, ghichu, eptongtien, "ok", user);
 
 
                     themid = billDao.insertBill(bill);
                     int epid = (int) themid;
 
-                    Toastdep(2,"Thêm thành công");
+                    Toastdep(2, "Thêm thành công");
                     hienthidl();
 
                     BillDetailDao billDetailDao = new BillDetailDao(getActivity());
-                    Log.d("zzzzz", "onClick: id bill "+themid);
-                    for(int f=0; f < themten.size();f++){
+                    Log.d("zzzzz", "onClick: id bill " + themid);
+                    for (int f = 0; f < themten.size(); f++) {
                         String addten = themten.get(f);
                         String addgia = themgia.get(f);
                         String addsl = themsl.get(f);
-                        BillDetail billDetail = new BillDetail(epid,addsl,addten,addgia);
-                        if(billDetailDao.insertBillDetail(billDetail)){
+                        BillDetail billDetail = new BillDetail(epid, addsl, addten, addgia);
+                        if (billDetailDao.insertBillDetail(billDetail)) {
 
                         }
 
                     }
 
                     dialog.dismiss();
-                }
-                else{
-                    Toastdep(1,"Bạn chưa nhập sản phẩm nào");
+                } else {
+                    Toastdep(1, "Bạn chưa nhập sản phẩm nào");
                 }
 
             }
@@ -411,15 +411,18 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 
 
     }
-    public void laydl(){
+
+    public void laydl() {
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("TK", Context.MODE_PRIVATE);
         user = sharedPreferences2.getString("tk", "");
-        Log.d("neee", "laydl: "+user);
+        Log.d("neee", "laydl: " + user);
     }
-    public void hienthidl(){
+
+    public void hienthidl() {
         list.clear();
-        list.addAll(billDao.getBillsByTypeAndStatus("nhập kho","ok"));
-        listtk.addAll(billDao.getBillsByTypeAndStatus("nhập kho","ok"));
+        listtk.clear();
+        list.addAll(billDao.getBillsByTypeAndStatus("nhập kho", "ok"));
+        listtk.addAll(billDao.getBillsByTypeAndStatus("nhập kho", "ok"));
         adapter.notifyDataSetChanged();
     }
 
@@ -431,16 +434,16 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-    public void Toastdep(int kieu ,String nd){
+
+    public void Toastdep(int kieu, String nd) {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast, getActivity().findViewById(R.id.custom_toast_layout));
 
 // Tùy chỉnh nội dung Toast
         ImageView imageView = layout.findViewById(R.id.custom_toast_icon);
-        if(kieu==1){
+        if (kieu == 1) {
             Glide.with(getActivity()).asGif().load(R.raw.anhthsai).into(imageView);
-        }
-        else{
+        } else {
             Glide.with(getActivity()).asGif().load(R.raw.anhthdung).into(imageView);
         }
 
@@ -456,6 +459,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
 // Hiển thị Toast
         toast.show();
     }
+
     private void toggleMenu() {
         if (isMenuOpen) {
             hideMenu();
@@ -475,6 +479,7 @@ public class FrmQuanLyBillNhap extends Fragment implements FragmentChangeListene
         fabOption1.hide();
         fabOption2.hide();
     }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
